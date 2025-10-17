@@ -1,0 +1,41 @@
+# Imagem base completa com o ROS Noetic e desktop
+FROM osrf/ros:noetic-desktop-full
+
+# Evita prompts interativos durante a instalação
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Atualiza pacotes e instala dependências essenciais
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    cmake \
+    git \
+    wget \
+    curl \
+    nano \
+    vim \
+    python3-pip \
+    python3-rosdep \
+    python3-rosinstall \
+    python3-rosinstall-generator \
+    python3-wstool \
+    python3-catkin-tools \
+    ros-noetic-rosserial \
+    ros-noetic-rosserial-arduino \
+    ros-noetic-rosserial-python \
+    && rm -rf /var/lib/apt/lists/*
+
+# Inicializa o rosdep (necessário para resolver dependências)
+RUN rosdep init || true && rosdep update
+
+# Define o workspace padrão
+ENV CATKIN_WS=/root/catkin_ws
+RUN mkdir -p $CATKIN_WS/src
+WORKDIR $CATKIN_WS
+
+# Fonte padrão do ROS (ros_entrypoint.sh)
+# Isso garante que 'roscore', 'rosrun' etc. funcionem corretamente
+COPY --from=osrf/ros:noetic-desktop-full /ros_entrypoint.sh /ros_entrypoint.sh
+ENTRYPOINT ["/ros_entrypoint.sh"]
+
+# Comando padrão ao entrar no container
+CMD ["bash"]

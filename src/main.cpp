@@ -24,7 +24,7 @@ float rpwm;
 
 
 // ROS variables and functions
-IPAddress server(192,168,0,115); // MASTER IP
+IPAddress server(192,168,0,119); // MASTER IP
 const uint16_t serverPort = 11411; // TCP CONNECTION PORT
 ros::NodeHandle nh; // Node handle object
 move::Move velocity;
