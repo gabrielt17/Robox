@@ -1,0 +1,2 @@
+move
+-DCATKIN_DEVEL_PREFIX=/home/nero/receita/devel -DCMAKE_INSTALL_PREFIX=/home/nero/receita/install -G Unix Makefiles
