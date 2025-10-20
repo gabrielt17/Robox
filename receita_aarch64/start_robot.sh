@@ -21,22 +21,21 @@ if ! command -v roscore >/dev/null 2>&1; then
     exit 1
 fi
 
-# --- Solicita o IP manualmente ---
-echo "=============================================="
-echo "     🤖 Controle do Robô via ROS Noetic        "
-echo "=============================================="
-echo
-read -p "🌐 Digite o endereço IP que deseja usar para o ROS_MASTER_URI: " IP
-
+# --- Detecta o IP local ---
+IP=$(hostname -I | awk '{print $2}')
 if [ -z "$IP" ]; then
-    echo "❌ Nenhum IP informado. Encerrando."
-    exit 1
+    echo "⚠️  Não foi possível detectar o IP automaticamente. Usando 127.0.0.1"
+    IP="127.0.0.1"
 fi
 
 export ROS_IP=$IP
 export ROS_MASTER_URI="http://$ROS_IP:11311"
 
+echo "=============================================="
+echo "     🤖 Controle do Robô via ROS Noetic        "
+echo "=============================================="
 echo
+echo "🌐 Endereço IP detectado: $ROS_IP"
 echo "🔧 ROS_MASTER_URI definido como: $ROS_MASTER_URI"
 echo
 

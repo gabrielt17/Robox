@@ -27,14 +27,14 @@ RUN apt-get update && apt-get install -y \
 # Inicializa o rosdep (necessário para resolver dependências)
 RUN rosdep init || true && rosdep update
 
-# Define o workspace padrão
-ENV CATKIN_WS=/root/catkin_ws
-RUN mkdir -p $CATKIN_WS/src
-WORKDIR $CATKIN_WS
-
 # Fonte padrão do ROS (ros_entrypoint.sh)
 # Isso garante que 'roscore', 'rosrun' etc. funcionem corretamente
 COPY --from=osrf/ros:noetic-desktop-full /ros_entrypoint.sh /ros_entrypoint.sh
+
+# 🔧 Faz com que o ROS seja automaticamente carregado em qualquer shell
+RUN echo "source /opt/ros/noetic/setup.bash" >> /root/.bashrc
+
+
 ENTRYPOINT ["/ros_entrypoint.sh"]
 
 # Comando padrão ao entrar no container

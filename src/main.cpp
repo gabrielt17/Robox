@@ -81,11 +81,11 @@ void Move_cb(const move::Move &MSG) {
     lpwm = -pwm_base;
     rpwm = pwm_base;
   } else if (strcmp(MSG.direction, "e") == 0) { // Esquerda
-    lpwm = pwm_base;
-    rpwm = pwm_base;
-  } else if (strcmp(MSG.direction, "d") == 0) { // Direita
     lpwm = -pwm_base;
     rpwm = -pwm_base;
+  } else if (strcmp(MSG.direction, "d") == 0) { // Direita
+    lpwm = pwm_base;
+    rpwm = pwm_base;
   } else if (strcmp(MSG.direction, "b") == 0) { // Trás
     lpwm = pwm_base;
     rpwm = -pwm_base;
